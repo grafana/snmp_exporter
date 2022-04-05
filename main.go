@@ -26,7 +26,6 @@ import (
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/promlog"
 	"github.com/prometheus/common/promlog/flag"
@@ -47,14 +46,14 @@ var (
 	dryRun        = kingpin.Flag("dry-run", "Only verify configuration is valid and exit.").Default("false").Bool()
 
 	// Metrics about the SNMP exporter itself.
-	snmpDuration = promauto.NewSummaryVec(
+	snmpDuration = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Name: "snmp_collection_duration_seconds",
 			Help: "Duration of collections by the SNMP exporter",
 		},
 		[]string{"module"},
 	)
-	snmpRequestErrors = promauto.NewCounter(
+	snmpRequestErrors = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Name: "snmp_request_errors_total",
 			Help: "Errors in requests to the SNMP exporter",

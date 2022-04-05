@@ -26,7 +26,6 @@ import (
 	"github.com/go-kit/log/level"
 	"github.com/gosnmp/gosnmp"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/snmp_exporter/config"
@@ -38,14 +37,14 @@ const (
 
 var (
 	buckets               = prometheus.ExponentialBuckets(0.0001, 2, 15)
-	snmpUnexpectedPduType = promauto.NewCounter(
+	snmpUnexpectedPduType = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "unexpected_pdu_type_total",
 			Help:      "Unexpected Go types in a PDU.",
 		},
 	)
-	snmpDuration = promauto.NewHistogram(
+	snmpDuration = prometheus.NewHistogram(
 		prometheus.HistogramOpts{
 			Namespace: namespace,
 			Name:      "packet_duration_seconds",
@@ -53,14 +52,14 @@ var (
 			Buckets:   buckets,
 		},
 	)
-	snmpPackets = promauto.NewCounter(
+	snmpPackets = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "packets_total",
 			Help:      "Number of SNMP packet sent, including retries.",
 		},
 	)
-	snmpRetries = promauto.NewCounter(
+	snmpRetries = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "packet_retries_total",
