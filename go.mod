@@ -2,7 +2,7 @@ module github.com/prometheus/snmp_exporter
 
 go 1.22
 
-toolchain go1.23.1
+toolchain go1.26.10
 
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
